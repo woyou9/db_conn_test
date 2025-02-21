@@ -9,7 +9,7 @@
     "select_customer_by_country_and_city" : "SELECT * FROM customers WHERE country = %s and city = %s;"
   },
   "random_sql_inserts" : {
-    "insert_into_categories" : "INSERT INTO categories (category_id, category_name, description) VALUES (%s, 'Ass', 'It is just so ass');"
+    "insert_into_categories_with_id" : "INSERT INTO categories (category_id, category_name, description) VALUES (%s, 'Ass', 'It is just so ass');"
   },
   "random_sql_deletes" : {
     "delete_from_categories_by_id" : "DELETE FROM categories WHERE category_id = %s;"

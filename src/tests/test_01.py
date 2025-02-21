@@ -55,7 +55,7 @@ def test_selects_with_params(localhost_connection: DatabaseConnection) -> None:
 def test_insert_and_delete(localhost_connection: DatabaseConnection) -> None:
     customer_id = random.randrange(10, 100)
 
-    localhost_connection.execute_sql(RANDOM_SQL_INSERTS.get('insert_into_categories'),
+    localhost_connection.execute_sql(RANDOM_SQL_INSERTS.get('insert_into_categories_with_id'),
                                      (customer_id,))
     rows = localhost_connection.execute_sql(f"SELECT * FROM categories WHERE category_id = {customer_id}")
 
@@ -64,5 +64,6 @@ def test_insert_and_delete(localhost_connection: DatabaseConnection) -> None:
     localhost_connection.execute_sql(RANDOM_SQL_DELETES.get('delete_from_categories_by_id'),
                                      (customer_id,))
 
-    rows = localhost_connection.execute_sql(f"SELECT * FROM categories WHERE category_id = {customer_id}")
+    rows = localhost_connection.execute_sql(f"SELECT * FROM categories WHERE category_id = %s",
+                                            (customer_id,))
     assert rows == []
