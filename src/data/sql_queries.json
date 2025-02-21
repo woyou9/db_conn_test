@@ -1,0 +1,7 @@
+{
+  "random_sql_queries": {
+    "select_customers" : "SELECT * FROM customers LIMIT 10;",
+    "select_orders" : "SELECT * FROM orders LIMIT 10;",
+    "select_products" : "SELECT * FROM products LIMIT 10;"
+  }
+}
