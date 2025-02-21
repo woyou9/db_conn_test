@@ -3,5 +3,15 @@
     "select_customers" : "SELECT * FROM customers LIMIT 10;",
     "select_orders" : "SELECT * FROM orders LIMIT 10;",
     "select_products" : "SELECT * FROM products LIMIT 10;"
+  },
+  "random_sql_queries_with_params" : {
+    "select_order_by_customer_id" : "SELECT * FROM orders WHERE customer_id = %s;",
+    "select_customer_by_country_and_city" : "SELECT * FROM customers WHERE country = %s and city = %s;"
+  },
+  "random_sql_inserts" : {
+    "insert_into_categories" : "INSERT INTO categories (category_id, category_name, description) VALUES (%s, 'Ass', 'It is just so ass');"
+  },
+  "random_sql_deletes" : {
+    "delete_from_categories_by_id" : "DELETE FROM categories WHERE category_id = %s;"
   }
 }

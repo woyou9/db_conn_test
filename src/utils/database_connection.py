@@ -29,21 +29,21 @@ class DatabaseConnection:
         except Exception as e:
             logger.error(f'Failed to connect to the "{self.dbname}" database. Exception: {e.args[1].decode('cp1250')}')
 
-    def execute_sql(self, sql_query: str):
+    def execute_sql(self, sql_query: str, params: tuple = None):
         if not self.connection:
             raise Exception("Database connection not established.")
         try:
             with self.connection.cursor() as cur:
-                cur.execute(sql_query)
+                cur.execute(sql_query, params)
                 if cur.description:
                     results = cur.fetchall()
                     if not results:
-                        logger.info(f'Query "{sql_query}" returned an empty result set.')
+                        logger.info(f'Query "{sql_query}" with params {params} returned an empty result set.')
                     return results
                 self.connection.commit()
-                logger.info(f'Query "{sql_query}" executed successfully.')
+                logger.info(f'Query "{sql_query}" with params {params} executed successfully.')
         except Exception as e:
-            logger.error(f'Database query failed: {e}')
+            logger.error(f'Database query failed. Exception: {e}')
             self.connection.rollback()
 
     def close(self):
