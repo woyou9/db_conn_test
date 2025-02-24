@@ -1,19 +1,19 @@
 {
-  "localhost_connection": {
+  "localhost": {
     "database_name": "Northwind",
     "user": "postgres",
-    "password": "postgres",
+    "password": "postgress",
     "host": "localhost",
     "port": "5432"
   },
-  "preprod_connection": {
-    "database_name": "",
-    "user": "",
-    "password": "",
-    "host": "",
-    "port": ""
+  "preprod": {
+    "database_name": "Northwind",
+    "user": "postgres",
+    "password": "postgresss",
+    "host": "localhost",
+    "port": "5432"
   },
-  "dev_connection": {
+  "test": {
     "database_name": "",
     "user": "",
     "password": "",

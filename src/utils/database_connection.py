@@ -17,6 +17,9 @@ class DatabaseConnection:
                 f'at {self.host}:{self.port} as "{self.user}" user.')
 
     def connect(self):
+        if not all([self.dbname, self.user, self.password, self.host, self.port]):
+            logger.error('Database connection details are missing or incomplete.')
+            raise ValueError('Incomplete database connection details.')
         try:
             self.connection = psycopg2.connect(
                 dbname=self.dbname,
