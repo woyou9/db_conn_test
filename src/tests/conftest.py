@@ -3,7 +3,7 @@ from src.utils.database_connection import DatabaseConnection
 from src.utils.json_data import DATABASE_INFO
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def localhost_connection():
     db_connection: DatabaseConnection = DatabaseConnection(DATABASE_INFO['localhost_connection'].get('database_name'),
                                                            DATABASE_INFO['localhost_connection'].get('user'),
