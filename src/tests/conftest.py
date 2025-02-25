@@ -1,6 +1,7 @@
+from datetime import datetime
 import pytest
 from src.utils.database_connection import DatabaseConnection
-from src.utils.json_data import DATABASE_INFO
+from src.utils.json_data import DATABASE_INFO, USER_DATA
 from src.utils.user import User
 
 
@@ -32,11 +33,30 @@ def database_connection(database_environment):
 
 
 @pytest.fixture
-def test_user(database_connection):
-    test_permissions = ['add', 'edit', 'delete', 'almighty']
-    user = User(database_connection, username='test_user')
-    user.create()
-    user.set_permissions(test_permissions)
-    # usunąć create/set_permissions i obsłużyć to przy tworzeniu instancji?
+def test_user_admin(database_connection):
+    user = User(database_connection,
+                f'{USER_DATA.get('user_info').get('username')}_{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}',
+                USER_DATA.get('user_roles').get('Admin'),
+                USER_DATA.get('user_info').get('password'))
+    yield user
+    user.delete()
+
+
+@pytest.fixture
+def test_user_pm(database_connection):
+    user = User(database_connection,
+                f'{USER_DATA.get('user_info').get('username')}_{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}',
+                USER_DATA.get('user_roles').get('PM'),
+                USER_DATA.get('user_info').get('password'))
+    yield user
+    user.delete()
+
+
+@pytest.fixture
+def test_user_worker(database_connection):
+    user = User(database_connection,
+                f'{USER_DATA.get('user_info').get('username')}_{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}',
+                USER_DATA.get('user_roles').get('Worker'),
+                USER_DATA.get('user_info').get('password'))
     yield user
     user.delete()

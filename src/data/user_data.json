@@ -1,0 +1,11 @@
+{
+  "user_info": {
+    "username": "test_user",
+    "password": "p@$$w0rd"
+  },
+  "user_roles": {
+    "Admin": ["EVERYTHING"],
+    "PM": ["EDIT_CONTRACT"],
+    "Worker": ["REGISTER_WORKHOURS", "BOOK_WORKSPACE"]
+  }
+}
