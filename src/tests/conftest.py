@@ -22,7 +22,7 @@ def database_environment(request):
 
 @pytest.fixture
 def database_connection(database_environment):
-    db_config: dict = DATABASE_INFO.get(database_environment)
+    db_config: dict = DATABASE_INFO[database_environment]
     db_connection: DatabaseConnection = DatabaseConnection(db_config)
     yield db_connection
     db_connection.close()
@@ -32,7 +32,7 @@ def database_connection(database_environment):
 def test_user(database_connection, request):
     role_name = request.param
     user = User(database_connection,
-                f'{USER_DATA['user_info'].get('username')}_{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}',
+                f'{USER_DATA['user_info'].get('username')}_{datetime.now().strftime("%Y/%m/%d_%H:%M:%S")}',
                 USER_DATA['user_roles'].get(role_name),
                 USER_DATA['user_info'].get('password'))
     yield user

@@ -18,7 +18,9 @@ class DatabaseConnection:
 
     def connect(self):
         if not all([self.db_name, self.user, self.password, self.host, self.port]):
-            logger.error('Database connection details are missing or incomplete.')
+            logger.error(f'Connection failed. Database connection details are incomplete. Missing parameters: {[param for param in 
+                                                                                                                ['db_name', 'user', 'password', 'host', 'port']
+                                                                                                                if not getattr(self, param)]}')
             raise ValueError('Incomplete database connection details.')
         try:
             self.connection = psycopg2.connect(
@@ -30,11 +32,12 @@ class DatabaseConnection:
             )
             logger.info(f'Successfully connected to the "{self.db_name}" database. Now using {self.__str__()}')
         except Exception as e:
-            logger.error(f'Failed to connect to the "{self.db_name}" database. Exception: {str(e)}')
+            logger.error(f'Failed to connect to the "{self.db_name}" database. Exception: {repr(e)}')
+            raise ConnectionError(f'Database connection failed: {repr(e)}')
 
     def execute_sql(self, sql_query: str, params: tuple = None):
         if not self.connection:
-            raise Exception("Database connection not established.")
+            raise ConnectionError("Database connection not established.")
         try:
             with self.connection.cursor() as cur:
                 cur.execute(sql_query, params)
@@ -48,6 +51,7 @@ class DatabaseConnection:
         except Exception as e:
             logger.error(f'Database query failed failed for query: {sql_query} with params: {params}. Exception: {str(e)}')
             self.connection.rollback()
+            raise Exception(f'Database query failed: {str(e)}')
 
     def close(self):
         if self.connection:
@@ -55,3 +59,4 @@ class DatabaseConnection:
             logger.info(f'Connection to "{self.db_name}" database at {self.host}:{self.port} closed.')
         else:
             logger.error("Can't close non existing connection.")
+            raise Exception("Can't close non existing connection.")

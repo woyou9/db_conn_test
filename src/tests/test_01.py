@@ -1,7 +1,5 @@
 import random
-
 import pytest
-
 from src.utils.database_connection import DatabaseConnection
 from src.utils.json_data import SQL_QUERIES
 from src.utils.user import User

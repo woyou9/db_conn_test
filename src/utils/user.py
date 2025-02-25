@@ -19,28 +19,27 @@ class User:
         if not self.database_connection.connection:
             logger.error('Could not create user. Connection not established.')
             raise Exception('Database connection not established.')
-        else:
-            # sql tworzący usera
-            logger.info(f'Successfully created user "{self.username}" at "{self.database_connection.host}:{self.database_connection.port}".')
-            self.user_status = True
+        # SQL tworzący usera
+        logger.info(f'Successfully created user "{self.username}" at "{self.database_connection.host}:{self.database_connection.port}".')
+        self.user_status = True
 
     def set_permissions(self, permissions: list):
         if not self.database_connection.connection:
-            logger.error('Could not set permissions. Connection not established.')
-            raise Exception('Database connection not established.')
+            logger.error(f'Could not set permissions. Connection to "{self.database_connection.db_name}" database not established.')
+            raise ConnectionError('Database connection not established.')
         if not self.user_status:
             logger.error("Can't set permissions for non existing user.")
             raise Exception("Can't set permissions - user doesn't exist.")
-        # sql nadający uprawnienia userowi
+        # SQL nadający uprawnienia userowi
         logger.info(f'Successfully set permissions {permissions} for user "{self.username}".')
 
     def delete_user(self):
         if not self.database_connection.connection:
-            logger.error(f'Could not delete user. Connection not established.')
-            raise Exception('Database connection not established.')
+            logger.error(f'Could not delete user. Connection to "{self.database_connection.db_name}" database not established.')
+            raise ConnectionError('Database connection not established.')
         if not self.user_status:
             logger.error("Can't delete non existing user.")
             raise Exception("Can't delete non existing user.")
-        # sql usuwający usera
+        # SQL usuwający usera (+ uprawnienia?)
         logger.info(f'Successfully deleted user "{self.username}" at "{self.database_connection.host}:{self.database_connection.port}".')
         self.user_status = False
