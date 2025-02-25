@@ -36,7 +36,7 @@ def test_user(database_connection, request):
                 USER_DATA['user_roles'].get(role_name),
                 USER_DATA['user_info'].get('password'))
     yield user
-    user.delete()
+    user.delete_user()
 
 
 """
