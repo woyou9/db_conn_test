@@ -32,9 +32,9 @@ def database_connection(database_environment):
 def test_user(database_connection, request):
     role_name = request.param
     user = User(database_connection,
-                f'{USER_DATA.get('user_info').get('username')}_{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}',
-                USER_DATA.get('user_roles').get(role_name),
-                USER_DATA.get('user_info').get('password'))
+                f'{USER_DATA['user_info'].get('username')}_{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}',
+                USER_DATA['user_roles'].get(role_name),
+                USER_DATA['user_info'].get('password'))
     yield user
     user.delete()
 
