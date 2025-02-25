@@ -1,4 +1,7 @@
 import random
+
+import pytest
+
 from src.utils.database_connection import DatabaseConnection
 from src.utils.json_data import SQL_QUERIES
 from src.utils.user import User
@@ -10,7 +13,8 @@ RANDOM_SQL_INSERTS = SQL_QUERIES.get('random_sql_inserts')
 RANDOM_SQL_DELETES = SQL_QUERIES.get('random_sql_deletes')
 
 
-def test_selects(database_connection: DatabaseConnection, test_user_admin: User) -> None:
+@pytest.mark.parametrize('test_user', ['Admin'], indirect=True)
+def test_selects(database_connection: DatabaseConnection, test_user: User) -> None:
     rows: list[tuple] = database_connection.execute_sql(RANDOM_SQL_QUERIES.get('select_customers'))
 
     print('')
@@ -31,7 +35,8 @@ def test_selects(database_connection: DatabaseConnection, test_user_admin: User)
     print('')
 
 
-def test_selects_with_params(database_connection: DatabaseConnection, test_user_worker: User) -> None:
+@pytest.mark.parametrize('test_user', ['PM'], indirect=True)
+def test_selects_with_params(database_connection: DatabaseConnection, test_user: User) -> None:
     rows: list[tuple] = database_connection.execute_sql(RANDOM_SQL_QUERIES_WITH_PARAMS.get('select_order_by_customer_id'),
                                                          ('HANAR',))
     print('')
@@ -55,7 +60,8 @@ def test_selects_with_params(database_connection: DatabaseConnection, test_user_
         assert 'UK' in row and 'London' in row
 
 
-def test_insert_and_delete(database_connection: DatabaseConnection, test_user_pm: User) -> None:
+@pytest.mark.parametrize('test_user', ['Worker'], indirect=True)
+def test_insert_and_delete(database_connection: DatabaseConnection, test_user: User) -> None:
     customer_id = random.randrange(10, 100)
 
     database_connection.execute_sql(RANDOM_SQL_INSERTS.get('insert_into_categories_with_id'),

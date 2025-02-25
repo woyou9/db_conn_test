@@ -22,15 +22,25 @@ def database_environment(request):
 
 @pytest.fixture
 def database_connection(database_environment):
-    db_config = DATABASE_INFO[database_environment]
-    db_connection: DatabaseConnection = DatabaseConnection(db_config.get('database_name'),
-                                                           db_config.get('user'),
-                                                           db_config.get('password'),
-                                                           db_config.get('host'),
-                                                           db_config.get('port'))
+    db_config: dict = DATABASE_INFO.get(database_environment)
+    db_connection: DatabaseConnection = DatabaseConnection(db_config)
     yield db_connection
     db_connection.close()
 
+
+@pytest.fixture
+def test_user(database_connection, request):
+    role_name = request.param
+    user = User(database_connection,
+                f'{USER_DATA.get('user_info').get('username')}_{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}',
+                USER_DATA.get('user_roles').get(role_name),
+                USER_DATA.get('user_info').get('password'))
+    yield user
+    user.delete()
+
+
+"""
+Analogicznie można zrobić fixture dla każdej roli osobno?
 
 @pytest.fixture
 def test_user_admin(database_connection):
@@ -60,3 +70,4 @@ def test_user_worker(database_connection):
                 USER_DATA.get('user_info').get('password'))
     yield user
     user.delete()
+"""

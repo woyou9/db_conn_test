@@ -3,12 +3,12 @@ from src.utils.logger import logger
 
 
 class DatabaseConnection:
-    def __init__(self, dbname: str, user: str, password: str, host: str, port: str):
-        self.dbname = dbname
-        self.user = user
-        self.password = password
-        self.host = host
-        self.port = port
+    def __init__(self, db_config: dict):
+        self.dbname = db_config.get('database_name')
+        self.user = db_config.get('user')
+        self.password = db_config.get('password')
+        self.host = db_config.get('host')
+        self.port = db_config.get('port')
         self.connection = None
         self.connect()
 
