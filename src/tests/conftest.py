@@ -23,7 +23,7 @@ def database_environment(request):
 @pytest.fixture
 def database_connection(database_environment):
     db_config: dict = DATABASE_INFO[database_environment]
-    db_connection: DatabaseConnection = DatabaseConnection(db_config)
+    db_connection: DatabaseConnection = DatabaseConnection(database_config=db_config)
     yield db_connection
     db_connection.close()
 
@@ -40,7 +40,7 @@ def test_user(database_connection, request):
 
 
 """
-Analogicznie można zrobić fixture dla każdej roli osobno?
+Analogicznie można zrobić fixture dla każdej roli osobno
 
 @pytest.fixture
 def test_user_admin(database_connection):
