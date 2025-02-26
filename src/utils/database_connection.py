@@ -42,7 +42,7 @@ class DatabaseConnection:
             with self.connection.cursor() as cur:
                 cur.execute(sql_query, params)
                 if cur.description:
-                    results = cur.fetchall()
+                    results: list[tuple] = cur.fetchall()
                     if not results:
                         logger.info(f'Query "{sql_query}" with params {params} returned an empty result set.')
                     return results

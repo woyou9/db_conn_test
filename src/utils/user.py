@@ -3,7 +3,7 @@ from src.utils.database_connection import DatabaseConnection
 
 
 class User:
-    def __init__(self, database_connection: DatabaseConnection, username: str, permissions: list, password: str = 'default_pass'):
+    def __init__(self, database_connection: DatabaseConnection, username: str, permissions: list, password: str = '!QAZxsw2'):
         self.database_connection = database_connection
         self.username = username
         self.password = password
@@ -13,7 +13,7 @@ class User:
         self.set_permissions(permissions)
 
     def __str__(self):
-        return f'Test user with username {self.username} and permissions: {self.permissions}.'
+        return f'Test user with username "{self.username}" and permissions: {self.permissions}.'
 
     def create_user(self):
         if not self.database_connection.connection:
