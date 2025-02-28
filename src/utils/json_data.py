@@ -9,7 +9,7 @@ try:
         DATABASE_INFO = json.load(database_info_file)
         SQL_QUERIES = json.load(sql_queries_file)
         USER_DATA = json.load(user_data_file)
-except FileNotFoundError:
-    logger.error('At least one of the config JSON files was not found.')
-    raise FileNotFoundError
+except FileNotFoundError as e:
+    logger.error(f'JSON data file {e.filename} not found or you are attempting to open a wrong file.')
+    raise e
 

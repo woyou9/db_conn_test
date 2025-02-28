@@ -46,8 +46,9 @@ class DatabaseConnection:
                     if not results:
                         logger.info(f'Query "{sql_query}" with params {params} returned an empty result set.')
                     return results
-                self.connection.commit()
-                logger.info(f'Query "{sql_query}" with params {params} executed successfully.')
+                if sql_query.strip().upper().startswith(('INSERT', 'UPDATE', 'DELETE', 'MERGE')):
+                    self.connection.commit()
+                    logger.info(f'Query "{sql_query}" with params {params} executed successfully.')
         except Exception as e:
             logger.error(f'Database query failed failed for query: {sql_query} with params: {params}. Exception: {str(e)}')
             self.connection.rollback()
